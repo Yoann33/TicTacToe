@@ -13,6 +13,7 @@ else
 {
     computer_text="X";
 }
+//This matrice represent the gameboard.
 let matrice = [0,0,0,0,0,0,0,0,0];
 let alignmentMatrice = [];
 
@@ -121,5 +122,17 @@ const playerClick = (e) => {
         }
     }
 }
+
+//This function restart the game.
+const restart = () => {
+    boxes.forEach((box,index)=>{
+        box.innerText = '';
+        box.addEventListener('click',playerClick);
+        matrice[index] = 0;
+        text.innerText = "Let's play";
+    })
+}
+
+restartBtn.addEventListener('click',restart);
 
 drawBoard();

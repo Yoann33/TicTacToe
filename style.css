@@ -29,6 +29,10 @@ body{
     border-radius: 10px;
 }
 
+#restartBtn:hover{
+    transform: translate(0px,-2px);
+}
+
 #gameboard{
     margin: 10px;
     width: 450px;
