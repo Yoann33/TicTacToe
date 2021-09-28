@@ -1,0 +1,46 @@
+:root{
+    --purple: #80139e;
+}
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    padding:0;
+    margin:0;
+    color: var(--purple);
+    font-family: sans-serif;
+}
+
+.container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#restartBtn{
+    font-size: 20px;
+    padding:10px 20px;
+    color: white;
+    background-color: var(--purple);
+    border: none;
+    border-radius: 10px;
+}
+
+#gameboard{
+    margin: 10px;
+    width: 450px;
+    display: flex;
+    flex-wrap:wrap;
+}
+
+.box{
+    width: 150px;
+    height: 150px;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
