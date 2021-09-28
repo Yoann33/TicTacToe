@@ -13,9 +13,12 @@ else
 {
     computer_text="X";
 }
-//This matrice represent the gameboard.
+//Cette matrice représente la grille de jeu.
 let matrice = [0,0,0,0,0,0,0,0,0];
 let alignmentMatrice = [];
+let difficulty = document.querySelector('.difficulty');
+const normal = difficulty.firstElementChild;
+const hard = difficulty.lastElementChild;
 
 //On dessine la grille du Tic Tac Toe.
 const drawBoard = () => {
@@ -30,7 +33,7 @@ const drawBoard = () => {
         {
             styleString+= `border-top: `+properties;
         }
-        if(index===1 || index===4 || index===7)
+        if(index==1 || index==4 || index==7)
         {
             styleString+= `border-left: `+properties;
             styleString+= `border-right: `+properties;
@@ -73,8 +76,7 @@ const IsItOver = () => {
 }
 
 
-//Permet de faire cocher une case à l'ordinateur
-const computerClick = () => {
+const normalMod = () => {
     randIndex = null;
     //On coche dans une case libre grâce à une boucle while.
     while(randIndex === null)
@@ -85,10 +87,197 @@ const computerClick = () => {
             randIndex = null;
         }
     }
-    box = boxes[randIndex];
+    return randIndex;
+}
+
+//Cette fonction permet de faire un check des opportunités de l'ordinateur de faire un alignement complet.
+const checkComputerOportunity = () => {
+    let Index = null;
+    if(matrice[0]+matrice[1]+matrice[2]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[0]+matrice[4]+matrice[8]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 4*Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[0]+matrice[3]+matrice[6]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[1]+matrice[4]+matrice[7]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3)+1;
+        }
+        return Index;
+    }
+    if(matrice[2]+matrice[5]+matrice[8]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3)+2;
+        }
+        return Index;
+    }
+    if(matrice[2]+matrice[4]+matrice[6]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 2*Math.floor(Math.random()*3)+2;
+        }
+        return Index;
+    }
+    if(matrice[3]+matrice[4]+matrice[5]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3)+3;
+        }
+        return Index;
+    }
+    if(matrice[6]+matrice[7]+matrice[8]==8)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3)+6;
+        }
+        return Index;
+    }
+    return Index;
+}
+
+//Cette fonction permet de faire un check des opportunités du joueur de faire un alignement complet.
+const checkPlayerOportunity = () => {
+    let Index = null;
+    if(matrice[0]+matrice[1]+matrice[2]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[0]+matrice[4]+matrice[8]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 4*Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[0]+matrice[3]+matrice[6]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3);
+        }
+        return Index;
+    }
+    if(matrice[1]+matrice[4]+matrice[7]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3)+1;
+        }
+        return Index;
+    }
+    if(matrice[2]+matrice[5]+matrice[8]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = 3*Math.floor(Math.random()*3)+2;
+        }
+        return Index;
+    }
+    if(matrice[2]+matrice[4]+matrice[6]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3)+1;
+        }
+        return Index;
+    }
+    if(matrice[3]+matrice[4]+matrice[5]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3)+3;
+        }
+        return Index;
+    }
+    if(matrice[6]+matrice[7]+matrice[8]==2)
+    {
+        while(Index===null || matrice[Index]!=0)
+        {
+            Index = Math.floor(Math.random()*3)+6;
+        }
+        return Index;
+    }
+    return Index;
+}
+
+const hardMod = () => {
+    let sum = 0;
+    let Index = null;
+    //Pour le premier coup de l'ordinateur on fait un coup spécial qui le met dans une position optimal.
+    matrice.forEach((value,key)=>{
+        sum+=value;
+    })
+    if(sum==1)
+    {
+        Index = 4;
+        if(matrice[4]==1)
+        {
+            while(Index===null || Index==4)
+            {
+                Index = 2*Math.floor(Math.random()*5);
+            }
+        }
+        return Index;
+    }
+    //Après le premier coup on check les opportunités de faire un alignement complet pour l'ordinateur.
+    Index = checkComputerOportunity();
+    if(Index===null)
+    {
+        //Si aucune opportunité d'alignement ne lui a été favorable, on cherche à bloquer le joueur avec un check de ses opportunités à lui.
+        Index = checkPlayerOportunity();
+        if(Index===null)
+        {
+            //Si aucune opportunité n'a été trouvé dans les deux cas, on choisit au hasard.
+            Index = normalMod();
+            return Index;
+        }
+        return Index;
+    }
+    return Index;
+}
+
+//Permet de faire cocher une case à l'ordinateur
+const computerClick = () => {
+    //On vérifie quelle stratégie l'ordinateur applique en fonction de la difficulté choisie par le joueur.
+    Index = normalMod();
+    if(hard.innerText == "[ Hard mod ]")
+    {
+        Index = hardMod();
+    }
+    box = boxes[Index];
     box.innerText = computer_text;
     box.removeEventListener('click',playerClick);
-    matrice[randIndex] = 4;
+    matrice[Index] = 4;
     if(SomebodyWon())
     {
         boxes.forEach((box,index)=>{
@@ -123,7 +312,7 @@ const playerClick = (e) => {
     }
 }
 
-//This function restart the game.
+//Cette fonction redémarre le jeu.
 const restart = () => {
     boxes.forEach((box,index)=>{
         box.innerText = '';
@@ -134,5 +323,22 @@ const restart = () => {
 }
 
 restartBtn.addEventListener('click',restart);
+
+//Cette fonction nous permet de changer de mode de difficulté.
+const modClick = (e) => {
+    restart();
+    if(e.target===normal)
+    {
+        hard.innerText = "Hard mod";
+        normal.innerText = "[ Normal mod ]";
+        return;
+    }
+    normal.innerText = "Normal mod"
+    hard.innerText = "[ Hard mod ]";
+    return;
+}
+
+normal.addEventListener('click',modClick);
+hard.addEventListener('click',modClick);
 
 drawBoard();
