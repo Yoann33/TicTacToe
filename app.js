@@ -252,7 +252,7 @@ const hardMod = () => {
     Index = checkComputerOportunity();
     if(Index===null)
     {
-        //Si aucune opportunité d'alignement ne lui a été favorable, on cherche à bloquer le joueur avec un check de ses opportunités à lui.
+        //Si aucune opportunité d'alignement n'a été favorable à l'ordinateur, on cherche à bloquer le joueur avec un check de ses opportunités à lui.
         Index = checkPlayerOportunity();
         if(Index===null)
         {
