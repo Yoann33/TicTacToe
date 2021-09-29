@@ -75,21 +75,6 @@ const IsItOver = () => {
     return false
 }
 
-
-const normalMod = () => {
-    randIndex = null;
-    //On coche dans une case libre grâce à une boucle while.
-    while(randIndex === null)
-    {
-        randIndex = Math.floor(Math.random()*9);
-        if(matrice[randIndex] != 0)
-        {
-            randIndex = null;
-        }
-    }
-    return randIndex;
-}
-
 //Cette fonction permet de faire un check des opportunités de l'ordinateur de faire un alignement complet.
 const checkComputerOportunity = () => {
     let Index = null;
@@ -230,6 +215,20 @@ const checkPlayerOportunity = () => {
     return Index;
 }
 
+const normalMod = () => {
+    randIndex = null;
+    //On coche dans une case libre grâce à une boucle while.
+    while(randIndex === null)
+    {
+        randIndex = Math.floor(Math.random()*9);
+        if(matrice[randIndex] != 0)
+        {
+            randIndex = null;
+        }
+    }
+    return randIndex;
+}
+
 const hardMod = () => {
     let sum = 0;
     let Index = null;
@@ -305,10 +304,6 @@ const playerClick = (e) => {
     else
     {
         computerClick();
-        if(IsItOver())//En pratique ce cas de figure n'arrivera jamais car il y a neuf coups maximum et c'est le joueur qui commence. Cependant on le laisse en cas de modification du code.
-        {
-            text.innerText = "nobody won...";
-        }
     }
 }
 
@@ -326,15 +321,26 @@ restartBtn.addEventListener('click',restart);
 
 //Cette fonction nous permet de changer de mode de difficulté.
 const modClick = (e) => {
-    restart();
     if(e.target===normal)
     {
+        if(normal.innerText=="Normal mod")
+        {
+            restart();
+        }
         hard.innerText = "Hard mod";
         normal.innerText = "[ Normal mod ]";
+        normal.removeEventListener('click',modClick);
+        hard.addEventListener('click',modClick);
         return;
+    }
+    if(hard.innerText=="Hard mod")
+    {
+        restart();
     }
     normal.innerText = "Normal mod"
     hard.innerText = "[ Hard mod ]";
+    hard.removeEventListener('click',modClick);
+    normal.addEventListener('click',modClick);
     return;
 }
 
