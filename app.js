@@ -2,7 +2,7 @@
 const boxes = Array.from(document.getElementsByClassName("box"));
 const gameBoard = document.getElementById("gameboard");
 const restartBtn = document.getElementById("restartBtn");
-const text = document.getElementById("text");
+const text = document.getElementsByClassName("text")[0];
 let player_text = "X";
 let computer_text;
 if(player_text=="X")
@@ -265,6 +265,19 @@ const hardMod = () => {
     return Index;
 }
 
+//Cette fonction permet d'activer et de désactiver l'animation du texte principal.
+const animateToggle = (myText) => {
+    let timer = window.setInterval(function(){
+        if(myText.innerText == "Let's play")
+        {
+            myText.classList.remove("animated");
+            clearInterval(timer);
+            return;
+        }
+        myText.classList.toggle("animated");
+    },500)
+}
+
 //Permet de faire cocher une case à l'ordinateur
 const computerClick = () => {
     //On vérifie quelle stratégie l'ordinateur applique en fonction de la difficulté choisie par le joueur.
@@ -296,19 +309,25 @@ const playerClick = (e) => {
             box.removeEventListener('click',playerClick);
         })
         text.innerText = player_text+" win!";
+        animateToggle(text);
     }
     else if(IsItOver())
     {
         text.innerText = "nobody won...";
+        animateToggle(text);
     }
     else
     {
         computerClick();
+        animateToggle(text);
     }
 }
 
 //Cette fonction redémarre le jeu.
 const restart = () => {
+    text.classList.add("stop");
+    animateToggle(text);
+    text.classList.remove("stop");
     boxes.forEach((box,index)=>{
         box.innerText = '';
         box.addEventListener('click',playerClick);
