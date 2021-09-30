@@ -61,7 +61,7 @@ const SomebodyWon = () => {
     return false;
 }
 
-//Cette fonction vérifie si la grille est remlie.
+//Cette fonction vérifie si la grille est remplie.
 const IsItOver = () => {
     let overValue = 1;
     matrice.forEach((value,key)=>{
@@ -265,17 +265,19 @@ const hardMod = () => {
     return Index;
 }
 
+const transitionToggle = () => {
+    text.classList.toggle("animated");
+}
+
 //Cette fonction permet d'activer et de désactiver l'animation du texte principal.
-const animateToggle = (myText) => {
-    let timer = window.setInterval(function(){
-        if(myText.innerText == "Let's play")
-        {
-            myText.classList.remove("animated");
-            clearInterval(timer);
-            return;
-        }
-        myText.classList.toggle("animated");
-    },500)
+const animateToggle = () => {
+    if(text.innerText == "Let's play")
+    {
+        text.removeEventListener('transitionend',transitionToggle);
+        text.classList.remove("animated");
+        return;
+    }
+    text.addEventListener('transitionend',transitionToggle);
 }
 
 //Permet de faire cocher une case à l'ordinateur
@@ -296,6 +298,8 @@ const computerClick = () => {
             box.removeEventListener('click',playerClick);
         })
         text.innerText = computer_text+" win!";
+        animateToggle();
+        text.classList.add("animated");
     }
 }
 
@@ -309,31 +313,30 @@ const playerClick = (e) => {
             box.removeEventListener('click',playerClick);
         })
         text.innerText = player_text+" win!";
-        animateToggle(text);
+        animateToggle();
+        text.classList.add("animated");
     }
     else if(IsItOver())
     {
         text.innerText = "nobody won...";
-        animateToggle(text);
+        animateToggle();
+        text.classList.add("animated");
     }
     else
     {
         computerClick();
-        animateToggle(text);
     }
 }
 
 //Cette fonction redémarre le jeu.
 const restart = () => {
-    text.classList.add("stop");
-    animateToggle(text);
-    text.classList.remove("stop");
     boxes.forEach((box,index)=>{
         box.innerText = '';
         box.addEventListener('click',playerClick);
         matrice[index] = 0;
-        text.innerText = "Let's play";
     })
+    text.innerText = "Let's play";
+    animateToggle();
 }
 
 restartBtn.addEventListener('click',restart);

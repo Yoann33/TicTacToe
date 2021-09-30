@@ -30,7 +30,7 @@ body{
 }
 
 .animated{
-    font-size: 45px !important;
+    font-size: 45px;
     transition: 0.5s;
 }
 
