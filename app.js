@@ -192,7 +192,7 @@ const checkPlayerOportunity = () => {
     {
         while(Index===null || matrice[Index]!=0)
         {
-            Index = Math.floor(Math.random()*3)+1;
+            Index = 2*Math.floor(Math.random()*3)+2;
         }
         return Index;
     }
